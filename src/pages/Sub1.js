@@ -1,8 +1,15 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useState } from 'react';
 
 const Sub1 = ({pic}) => {
   let {id} = useParams(); //window location에 있는 주소값에서 유저가 선언한 파라메터만 추출하는 함수
+
+  let [showButton, setShowButton] = useState(true)
+    //상품더보기 버튼을 클릭하면 실행되는 함수
+    const btnDataClick = () => {
+
+    }
 
   return (
     <div className='container pic'>
@@ -19,9 +26,17 @@ const Sub1 = ({pic}) => {
             <p className="price">{pic[id].price}</p>
             <button className="btn btn-danger">구매하기</button>
           </div>
+
+          {/* 상품 더보기 버튼 */}
+      {
+        showButton && (
+          <button className='btn-data' onClick={btnDataClick} disabled={!showButton}>더보기</button>
+          //버튼이 활성화 되었을 때만 클릭 가능하도록
+        )
+      }
         </div>
+        
     </div>
-  )
-}
+  )}
 
 export default Sub1

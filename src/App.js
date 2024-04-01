@@ -15,12 +15,13 @@ import './css/fonts.css'
 import './App.css';
 
 import data from './data'
+import axios from 'axios';
 
 
 function App() {
   //useNavigate: 함수. 변수에 담아서 선언을 일반적으로
   let navigate = useNavigate();
-  let [pic] = useState(data);
+  let [pic, setPic] = useState(data);
   //console.log(pic)
   let [showButton, setShowButton] = useState(true)
 
@@ -28,10 +29,29 @@ function App() {
   const goToSub1 =(id) =>{
     navigate(`/sub1/${id}`)
   }
+  
+  //axios로 데이터 요청하기
+  const fetchData = () => {
+    axios.get("https://raw.githubusercontent.com/SKY6323/shop/main/data2.json")
+    .then ((result) => {
+      //console.log(result.data)
+      let copy = [...pic, ...result.data];
+      //pic이 가지고 있는 data.js와 서버에서 받은 data.json의 데이터를 각각 복사해서 copy라는 변수에 저장
+      setPic(copy)
+      
+      if (result.data.length == 0){
+        setShowButton(false)
+      }
+    })
+    .catch(()=> {
+      console.log("실패")
+    })
+  }
 
   //상품 더보기 버튼 함수
   const btnDataClick = () => {
-
+    fetchData();
+    setShowButton(false); //버튼 클릭 시 비활성화
   }
 
   return (
@@ -44,7 +64,7 @@ function App() {
             </Navbar.Brand>
             
             <Nav className="me-auto gnb">
-              <Nav.Link onClick={()=>goToSub1(0)}>도서</Nav.Link>
+              <Nav.Link onClick={()=>goToSub1(0)}>도서 보기</Nav.Link>
 
               <NavDropdown title="작가별" id="basic-nav-dropdown">
                 <NavDropdown.Item
@@ -59,7 +79,7 @@ function App() {
                 </NavDropdown.Item>
               </NavDropdown>
 
-              <Nav.Link href="/sub3">만화</Nav.Link>
+              <Nav.Link href="/sub3">이벤트</Nav.Link>
             </Nav>
           </div>
         </Navbar>
@@ -68,7 +88,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage pic={pic}/>}/>
         <Route path='/sub1/:id' element={<Sub1 pic={pic}/>} />
-        <Route path='/sub2' element={<Sub2 />} >
+        <Route path='/sub2' element={<Sub2 pic={pic} />} >
           <Route path='sub2-1' element={<AUthorInfo pic={pic} />}></Route>
           <Route path='sub2-2' element={<WritersCall />}></Route>
         </Route>

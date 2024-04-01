@@ -1,9 +1,11 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
+import AUthorInfo from './AUthorInfo'
+import { Routes, Route } from 'react-router-dom'
+import WritersCall from './WritersCall'
 
 /* component */
-const Sub2 = () => {
+const Sub2 = ({pic}) => {
   let TitleBox = styled.div`
   padding-top:50px;
   margin-bottom:40px;`
@@ -12,25 +14,20 @@ const Sub2 = () => {
   margin-bottom: ${props=>props.mb};
   font-weight: ${props=>props.fw};`
 
-  let DefaultBtn = styled.button`
-    border:none;
-    width: 160px; height:40px;
-    border-radius: 4px;
-    color: ${props=>props.bg === 'seagreen' ? '#fff' : '#000'};
-    background: ${props=>props.bg}
-  `
-
   return (
     <div className='container author'>
-        <TitleBox>
-          <h2>작가 소개</h2>
+       <TitleBox>
+        <h2>작가별</h2>
+        <TextBox mb="30px" fw="400">
+          우리의 일상에 색을 더하는 것은 예술의 힘입니다. <br />[스테이 마인드]에서는 이 힘을 믿으며, 우리의 삶 속에 예술을 더 가까이 할 수 있도록 다양한 작가들의 그림을 렌탈해 드립니다. 오늘 소개할 작가들은 단순한 미의 전달자가 아닌, 각자의 독특한 세계관과 이야기를 가진 예술의 창조자들입니다.
+        </TextBox>
+      </TitleBox>
 
-          <TextBox mb='15px' fw='600'>구병모</TextBox>
-          <TextBox mb='10px' fw='400'>구병모 작가의 작품은 독특한 세계관에 우리를 초대합니다.</TextBox>
-        </TitleBox>
-        <DefaultBtn bg='seagreen'>살펴보기</DefaultBtn>
-        <h1>sub2</h1>
-        <Outlet />
+      <Routes>
+        <Route path='/' element ={<AUthorInfo pic={pic} />}></Route>
+        <Route path='sub2-1' element ={<AUthorInfo pic={pic} />}></Route>
+        <Route path='sub2-2' element ={<WritersCall />}></Route>
+      </Routes>
     </div>
   )
 }
